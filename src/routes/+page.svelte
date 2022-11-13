@@ -9,11 +9,11 @@
     // Reactive Values //
     $: backgroundSize =
         ((passwordLength - maxLength) * 100) / (maxLength - minLength) + 100;
-    $: passwordLength = +2;
-    $: maxLength = +20;
-    $: minLength = +0;
+    $: passwordLength = +5;
     $: passwordString = "";
     $: passwordStrength = "";
+    $: maxLength = 25;
+    $: minLength = +5;
     // this function is the framework for the getrandomLower, upper .etc, to reduce markup
     const getRandomFunc = (min: any, max: any) => {
         return String.fromCharCode(Math.floor(Math.random() * min) + max);
@@ -50,7 +50,6 @@ let passwordGenerator = {
             lower: string,
             number: string,
             symbol: string) {
-            console.clear()
             passwordString = "";
             // filter out unchecked types
             const typesCount = boxes.filter((box) => box.checked).length;
@@ -118,7 +117,7 @@ let passwordGenerator = {
             color: $primaryColor;
             padding: 15px;
             width: 310px;
-            transform: translatey(-15rem);
+            transform: translateY(-15rem);
             @include tablet{
                 width: max-content;
             }
@@ -345,10 +344,10 @@ let passwordGenerator = {
                 <h1>{passwordLength}</h1>
             </div>
             <div class="range">
-                <input type="range" min={minLength} max={maxLength} style="background-size: {backgroundSize}% 100%;" bind:value={passwordLength}>
+                <input type="range" min={minLength || 5} max={maxLength} style="background-size: {backgroundSize}% 100%;" bind:value={passwordLength}>
             </div>
             <div class="filter">
-                {#each boxes as box, i (box.id)}
+                {#each boxes as box (box.id)}
                     <CheckBox {...box} on:checked={() => passwordGenerator.CheckBox(box.id)}/>
                 {/each}
             </div>
